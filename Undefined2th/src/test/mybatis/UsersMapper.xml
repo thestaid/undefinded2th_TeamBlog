@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="users">
+	<sql id="dateFormat">
+		TO_CHAR(regdate,'YYYY"년"MM"월"DD"일" HH24:MI') regdate
+	</sql>
+	<select id="getData" parameterType="string" 
+			resultType="test.users.dto.UsersDto">
+		SELECT id, pwd, email, <include refid="dateFormat"/>
+		FROM users
+		WHERE id=#{id}
+	</select>
+	<select id="getList" parameterType="test.users.dto.UsersDto" resultType="test.users.dto.UsersDto">
+		SELECT *
+		FROM
+			(SELECT result1.*, ROWNUM rnum
+			FROM (SELECT id,email
+				  FROM users
+				  <where>
+				  	<if test="id != null">
+				  		OR id LIKE '%'||#{id}||'%'
+				  	</if>
+				  	<if test="email != null">
+				  		OR email LIKE '%'||#{email}||'%'
+				  	</if>
+				  </where>
+				  ) result1
+			)
+		WHERE rnum BETWEEN #{startRowNum} AND #{endRowNum}
+	</select>
+	
+	<update id="update" parameterType="test.users.dto.UsersDto">
+		UPDATE users
+		SET pwd=#{pwd}, email=#{email}
+		WHERE id=#{id}
+	</update>
+	
+	<delete id="delete" parameterType="string">
+		DELETE FROM users
+		WHERE id=#{id}
+	</delete>
+
+	<insert id="insert" parameterType="test.users.dto.UsersDto">
+		INSERT INTO users
+		(id, pwd, email, regdate)
+		VALUES(#{id}, #{pwd}, #{email}, SYSDATE)
+	</insert>
+
+	<select id="isValid" parameterType="test.users.dto.UsersDto" 
+				resultType="test.users.dto.UsersDto">
+		SELECT id, pwd 
+		FROM users
+		WHERE id=#{id} AND pwd=#{pwd}
+	</select>
+	<select id="isExistId" parameterType="string" 
+			resultType="string">
+		SELECT id
+		FROM users
+		WHERE id=#{id}
+	</select>
+	<select id="getCount" parameterType="test.users.dto.UsersDto" resultType="int">
+		SELECT NVL(MAX(ROWNUM), 0)
+		FROM users
+		<where>
+		  	<if test="id != null">
+		  		OR id LIKE '%'||#{id}||'%'
+		  	</if>
+		  	<if test="email != null">
+		  		OR email LIKE '%'||#{email}||'%'
+		  	</if>
+		</where>
+	</select>
+</mapper>
