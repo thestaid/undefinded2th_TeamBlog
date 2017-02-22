@@ -178,7 +178,7 @@
 	</div>		
 	<script>
 		//글 작성시 로그인을 안했을 경우 폼전송을 막는다.
-		$("#insertBtn").click(function(){
+		$("#visitorInsertBtn").click(function(){
 			var visitorId=$("#visitorId").val();
 			if(visitorId=="로그인 하시면 글 작성이 가능해요^^"){
 				alert("로그인을 해주세요!");

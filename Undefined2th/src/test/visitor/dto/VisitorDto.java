@@ -4,7 +4,6 @@ public class VisitorDto {
 	private int num;
 	private String writer;
 	private String content;
-	private String target_id;
 	private String regdate;
 	
 	private int startRowNum; //시작 row 번호
@@ -14,12 +13,11 @@ public class VisitorDto {
 	
 	public VisitorDto(){}
 	
-	public VisitorDto(int num, String writer, String content, String target_id, String regdate, int startRowNum,
+	public VisitorDto(int num, String writer, String content, String regdate, int startRowNum,
 			int endRowNum, int prevNum, int nextNum) {
 		this.num = num;
 		this.writer = writer;
 		this.content = content;
-		this.target_id = target_id;
 		this.regdate = regdate;
 		this.startRowNum = startRowNum;
 		this.endRowNum = endRowNum;
@@ -49,14 +47,6 @@ public class VisitorDto {
 
 	public void setContent(String content) {
 		this.content = content;
-	}
-
-	public String getTarget_id() {
-		return target_id;
-	}
-
-	public void setTarget_id(String target_id) {
-		this.target_id = target_id;
 	}
 
 	public String getRegdate() {

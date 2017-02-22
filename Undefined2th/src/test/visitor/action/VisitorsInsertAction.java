@@ -18,7 +18,6 @@ public class VisitorsInsertAction extends Action{
 		VisitorDto dto=new VisitorDto();
 		dto.setWriter(writer);
 		dto.setContent(content);
-		dto.setTarget_id("");
 		
 		VisitorDao.getInstance().insert(dto);
 		
