@@ -3,16 +3,16 @@
 <mapper namespace="visitor">
 	<select id="insert" parameterType="visitorDto">
 		INSERT INTO visitor_comment 
-		(num,writer,content,target_id,regdate) 
+		(num,writer,content,regdate) 
 		VALUES (visitor_seq.NEXTVAL, 
-		#{writer}, #{content}, #{target_id}, SYSDATE)
+		#{writer}, #{content}, SYSDATE)
 	</select>
 	<select id="getList" parameterType="visitorDto" resultType="visitorDto">
-		SELECT num,writer,content,target_id, 
+		SELECT num,writer,content, 
 		TO_CHAR(regdate, 'YYYY.MM.DD DAY HH24:MI') AS regdate 
 		FROM
 			(SELECT result1.*, ROWNUM rnum
-			FROM (SELECT num,writer,content,target_id,regdate
+			FROM (SELECT num,writer,content,regdate
 				  FROM visitor_comment
 				<where>
 				 	<if test="writer != null">
@@ -27,7 +27,7 @@
 	<select id="getData" parameterType="visitorDto" resultType="visitorDto">
 		SELECT result1.*
 		FROM 
-			(SELECT num,writer,content,target_id, 
+			(SELECT num,writer,content, 
 			TO_CHAR(regdate, 'YYYY.MM.DD DAY HH24:MI') AS regdate 
 			FROM visitor_comment
 			<where>
@@ -39,7 +39,7 @@
 		WHERE num=#{num}	
 	</select>
 	<select id="getDataform" parameterType="int" resultType="visitorDto">
-		SELECT num,writer,content,target_id, 
+		SELECT num,writer,content, 
 		TO_CHAR(regdate, 'YYYY.MM.DD DAY HH24:MI') AS regdate 
 		FROM visitor_comment 
 		WHERE num=#{num}	
